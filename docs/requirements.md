@@ -67,6 +67,7 @@ Status values: **Done**, **Partial**, **Planned (PR n)** — PR numbers follow
 | REQ-041 | Every dependency is pinned to an exact version that is at least 14 days old when added. Lock files carry hashes. |
 | REQ-042 | Container image is based on Red Hat UBI 9. docker-compose provides local dev with Postgres. |
 | REQ-043 | Logs are JSON lines on stdout (structlog) for SIEM ingestion. |
+| REQ-044 | Date-based rules and reports use a configurable business time zone. Default: `America/New_York`. |
 
 ### Evidence (050–059)
 
@@ -97,11 +98,11 @@ Status values: **Done**, **Partial**, **Planned (PR n)** — PR numbers follow
 | REQ-002 | `net/http.py` allow list; ADR 0003 | `tests/security/test_read_only.py` | Planned (PR 4) |
 | REQ-003 | — | `tests/security/test_read_only.py` | Planned (PR 4) |
 | REQ-004 | `net/tls.py`; ADR 0004 | `tests/security/test_tls.py` | Planned (PR 4) |
-| REQ-005 | ADR 0005; `config.py` | `tests/unit/test_config.py` | Partial — decision recorded; loader in PR 3 |
+| REQ-005 | `config.py` (`FileEnvSettingsSource`, `JrgSettings`); ADR 0005 | `tests/unit/test_config.py` | Done |
 | REQ-006 | `.pre-commit-config.yaml`, `.github/workflows/ci.yml` (`secret-scan`) | CI job `secret-scan` | Done |
 | REQ-007 | CLAUDE.md "Synthetic data" | review + gitleaks | Partial — fixture check added with first fixtures (PR 7) |
 | REQ-008 | `.gitignore` | — | Done |
-| REQ-009 | `logging.py` redaction | `tests/unit/test_logging.py` | Planned (PR 3) |
+| REQ-009 | `logging.py` (`redact_processor`, `scrub`), `cli.py` (`load_settings`); ADR 0013 | `tests/unit/test_logging.py`, `tests/unit/test_cli.py` | Done |
 | REQ-010 | `collectors/ad.py` | `tests/unit/collectors/test_ad.py` | Planned (PR 7) |
 | REQ-011 | `collectors/adp_csv.py` | `tests/unit/collectors/test_adp_csv.py` | Planned (PR 8) |
 | REQ-012 | `collectors/costpoint_csv.py` | `tests/unit/collectors/test_costpoint_csv.py` | Planned (PR 8) |
@@ -126,7 +127,8 @@ Status values: **Done**, **Partial**, **Planned (PR n)** — PR numbers follow
 | REQ-040 | `pyproject.toml` | CI job `test` | Partial — runtime libs pinned; used from PR 3 on |
 | REQ-041 | `pyproject.toml`, `requirements*.lock`, `Makefile` (`lock`); ADR 0011 | `tests/security/test_dependency_pins.py` | Done |
 | REQ-042 | `deploy/Containerfile`, `deploy/compose.yaml` | — | Planned (PR 5 compose, PR 15 image) |
-| REQ-043 | `logging.py` | `tests/unit/test_logging.py` | Planned (PR 3) |
+| REQ-043 | `logging.py` (`configure_logging`); ADR 0013 | `tests/unit/test_logging.py` | Done |
+| REQ-044 | `config.py` (`AppSettings.business_timezone`) | `tests/unit/test_config.py` | Partial — setting done; used by R001 (PR 13) and evidence (PR 14) |
 | REQ-050 | `evidence/` | `tests/unit/evidence/` | Planned (PR 14) |
 | REQ-060 | this file | review | Done |
 | REQ-061 | `docs/adr/` | review | Done |

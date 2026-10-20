@@ -126,8 +126,8 @@ writes one `run` row with start, end, status, and counts.
 - `finding`: `rule_id`, `subject_type`, `subject_key`, `first_seen`,
   `last_seen`, `status` (`open` | `resolved`), `resolved_at`.
   `finding_observation` links a finding to each `run_id` that supports it.
-- All timestamps are `timestamptz` in UTC. Dates in reports use the
-  configured business time zone.
+- All timestamps are `timestamptz` in UTC. Date rules and reports use the
+  business time zone (`JRG_BUSINESS_TIMEZONE`, default `America/New_York`).
 - As-of queries live in `db/asof.py`. Use them. Do not write ad-hoc
   "latest" queries in collectors or rules.
 
