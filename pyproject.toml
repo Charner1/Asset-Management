@@ -1,0 +1,66 @@
+[build-system]
+requires = ["setuptools==84.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jrg-asset-hub"
+version = "0.1.0"
+description = "Read-only identity and device inventory, rules, and compliance evidence."
+readme = "README.md"
+requires-python = "==3.12.*"
+license = { text = "Proprietary" }
+# Exact pins only. Each version must be at least 14 days old when added.
+# See docs/adr/0011-dependency-policy.md.
+dependencies = [
+    "alembic==1.20.0",
+    "httpx==0.28.1",
+    "ldap3==2.9.1",
+    "psycopg[binary]==3.3.6",
+    "pydantic==2.13.5",
+    "pydantic-settings==2.15.0",
+    "pyyaml==6.0.3",
+    "sqlalchemy==2.1.3",
+    "structlog==26.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "mypy==2.4.0",
+    "pre-commit==4.6.2",
+    "pytest==9.1.1",
+    "pytest-cov==7.1.0",
+    "respx==0.23.1",
+    "ruff==0.16.10",
+    "setuptools==84.0.0",
+    "types-pyyaml==6.0.12.20260906",
+]
+
+[project.scripts]
+jrg-asset-hub = "jrg_asset_hub.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "SIM", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers --cov=jrg_asset_hub --cov-report=term-missing --cov-fail-under=80"
+
+[tool.coverage.run]
+branch = true
+source = ["jrg_asset_hub"]
