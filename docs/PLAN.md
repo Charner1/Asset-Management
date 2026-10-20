@@ -92,7 +92,8 @@ Partitioning of `raw_snapshot` by month is deferred until volume needs it
 
 Notes:
 - R001: ADP gives a date, not a time. The rule treats the term date as
-  ending at 23:59:59 in the business time zone, then adds 24 h.
+  ending at 23:59:59 in the business time zone (`America/New_York`), then
+  adds 24 h.
 - R004: a device "exists" if it checked in within a configurable window
   (default 30 days), so retired devices do not create noise.
 - R005: allow list columns `name_pattern, publisher, notes`. Matching is
@@ -149,19 +150,21 @@ Each PR is small, has tests, and updates `docs/requirements.md`.
 
 ## 9. Open questions for review
 
-1. **ThreatLocker read endpoints use POST.** Several Portal API list/search
+1. **ThreatLocker read endpoints use POST.** — *Accepted with plan
+   approval; ADR in PR 4.* Several Portal API list/search
    calls (for example, computer search by parameters) are POST with a JSON
    query body. Proposal: allow a fixed list of these POST URLs in
    `ReadOnlyHttpClient`, with an ADR, and use an API key scoped to read-only
    permissions. Please confirm this is acceptable.
-2. **NinjaOne OAuth token request is a POST.** Same approach: allow only
+2. **NinjaOne OAuth token request is a POST.** — *Accepted with plan
+   approval; ADR in PR 4.* Same approach: allow only
    the token URL. Confirm the API client has only the `monitoring` scope
    (no `management` or `control`).
 3. **ADP export format.** Need a synthetic sample of the column headers,
    date format, and the exact values that mean "terminated".
 4. **Costpoint export format.** Same: headers and department field.
-5. **Business time zone** for R001 and reports (assumed `America/Chicago`
-   — please confirm).
+5. ~~**Business time zone**~~ — **Resolved 2026-10-20:** `America/New_York`
+   (setting `JRG_BUSINESS_TIMEZONE`).
 6. **File share access on RKE2.** Assumed an SMB/NFS mount into the pod,
    read-only. Confirm the mount method.
 7. **Repository and CI.** Which GitHub org/repo, and is CI GitHub Actions
